@@ -30,19 +30,20 @@ export async function mealsRoutes(app: FastifyInstance) {
     const createMealBodySchema = z.object({
       name: z.string(),
       description: z.string(),
-      date_time: z.string(),
-      on_diet: z.boolean()
+      on_diet: z.boolean(),
+      user_id: z.string(),
     })
 
     const { sessionId } = req.cookies
 
     const user = await knex('users').where('session_id', sessionId).first()
+    console.log(user)
 
     if (!user) {
       return res.status(404).send({ message: 'User not found' })
     }
 
-    const { name, description, date_time, on_diet } =
+    const { name, description, on_diet } =
       createMealBodySchema.parse(req.body)
 
     await knex('meals').insert({
