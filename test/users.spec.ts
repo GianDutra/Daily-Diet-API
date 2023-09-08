@@ -68,10 +68,6 @@ describe('Users routes', () => {
       .send({ name: "Comida da madrugada", description: "Melancia e banana", on_diet: true, user_id: user_id })
       
 
-      //apenas para verificar se as refeições estão chegando, excluir depois 
-      const listMealsReponse = await request(app.server)
-      .get('/meals')
-      .set('Cookie', cookies)
       
 
       // Requisição para pegar métricas
@@ -90,10 +86,4 @@ describe('Users routes', () => {
     });
 });
 
-
-
-
-
-
-    
   })
