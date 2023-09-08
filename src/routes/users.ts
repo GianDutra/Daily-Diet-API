@@ -47,31 +47,40 @@ export async function usersRoutes(app: FastifyInstance) {
 
 
          //Você coloca o id do usuário e pode ver todas as suas refeições
-    app.get(
-      '/:id',
-      {
-        preHandler: [checkSessionIdExists],
-      },
-      async (request) => {
-        const getUsersParamsSchema = z.object({
-          id: z.string().uuid(),
-        })
-  
-        const { id } = getUsersParamsSchema.parse(request.params)
-  
-        const { sessionId } = request.cookies
-  
-        const user = await knex('users')
-          .where({
-            id,
-          })
-          .first()
-  
-        return {
-          user,
-        }
-      },
-    )
+         app.get(
+          '/:id',
+          {
+            preHandler: [checkSessionIdExists],
+          },
+          async (req, res) => {
+            const createUserBodySchema = z.object({
+              id: z.string(),
+            })  
+
+            const { id } = createUserBodySchema.parse(req.params)
+            const { sessionId } = req.cookies;
+        
+            // Verificar se o usuário com o ID fornecido existe
+            const user = await knex('users').where('id', id).first();
+        
+            if (!user) {
+              return res.status(404).send({ message: 'User not found' });
+            }
+        
+            // Verificar se a session_id é a mesma, pois ele só pode visualizar as refeições dele mesmo.
+            if (user.session_id !== sessionId) {
+              return res.status(403).send({
+                status: 'error',
+                data: 'Session ID does not match',
+              });
+            }
+        
+            // Obter as refeições do usuário
+            const meals = await knex('meals').where('user_id', id);
+        
+            return res.status(200).send(meals);
+          }
+        );
     }
 
     
