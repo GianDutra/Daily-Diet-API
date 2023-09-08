@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { randomUUID } from 'node:crypto'
 import { knex } from '../database'
+import { checkSessionIdExists } from '../middlewares/check-session-id-exists'
 
 export async function usersRoutes(app: FastifyInstance) {
     app.get('/', async (req, res) => {
@@ -43,4 +44,34 @@ export async function usersRoutes(app: FastifyInstance) {
     
         return res.status(201).send()
       })
+
+
+         //Você coloca o id do usuário e pode ver todas as suas refeições
+    app.get(
+      '/:id',
+      {
+        preHandler: [checkSessionIdExists],
+      },
+      async (request) => {
+        const getUsersParamsSchema = z.object({
+          id: z.string().uuid(),
+        })
+  
+        const { id } = getUsersParamsSchema.parse(request.params)
+  
+        const { sessionId } = request.cookies
+  
+        const user = await knex('users')
+          .where({
+            id,
+          })
+          .first()
+  
+        return {
+          user,
+        }
+      },
+    )
     }
+
+    

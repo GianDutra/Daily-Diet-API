@@ -26,6 +26,36 @@ export async function mealsRoutes(app: FastifyInstance) {
     }
   )
 
+  //Você coloca o id da comida e pode ver uma refeição espefícica
+  app.get(
+    '/:id',
+    {
+      preHandler: [checkSessionIdExists],
+    },
+    async (request) => {
+      const getMealsParamsSchema = z.object({
+        id: z.string().uuid(),
+      })
+
+      const { id } = getMealsParamsSchema.parse(request.params)
+
+      const { sessionId } = request.cookies
+
+      const meal = await knex('meals')
+        .where({
+          id,
+        })
+        .first()
+
+      return {
+        meal,
+      }
+    },
+  )
+
+
+ 
+
   app.post('/', async (req, res) => {
     const createMealBodySchema = z.object({
       name: z.string(),
@@ -36,19 +66,19 @@ export async function mealsRoutes(app: FastifyInstance) {
 
     const { sessionId } = req.cookies
 
-    const user = await knex('users').where('session_id', sessionId).first()
-    console.log(user)
+    //const user = await knex('users').where('session_id', sessionId).first()
+    //console.log(user)
 
-    if (!user) {
-      return res.status(404).send({ message: 'User not found' })
-    }
+    //if (!user) {
+    //  return res.status(404).send({ message: 'User not found' })
+    //}
 
-    const { name, description, on_diet } =
+    const { name, description, on_diet, user_id } =
       createMealBodySchema.parse(req.body)
 
     await knex('meals').insert({
       id: randomUUID(),
-      user_id: user.id,
+      user_id,
       name,
       description,
       on_diet
