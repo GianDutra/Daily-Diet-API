@@ -116,13 +116,18 @@ describe('Meals routes', () => {
 
         // Pega o ID do usuário criado
       const meal_id = listMealReponse.body.meals[0].id;
-
       
-      
-      await request(app.server)
+      const listSingleMealResponse = await request(app.server)
       .get(`/meals/${meal_id}`)
       .set('Cookie', cookies)
       .expect(200)
+
+      expect(listSingleMealResponse.body).toEqual(
+        expect.objectContaining({
+          meal: expect.anything(),
+        }),
+      )
+
   })
 
 
