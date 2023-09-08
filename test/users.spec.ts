@@ -86,4 +86,61 @@ describe('Users routes', () => {
     });
 });
 
+
+it('should be possible to list all of a users meals', async () => {
+  const createUsersResponse = await request(app.server)
+    .post('/users')
+    .send({ name: 'john doe', email: 'johndoe@gmail.com' })
+    
+
+    const cookies = createUsersResponse.get('Set-Cookie')
+
+    const listUsersReponse = await request(app.server)
+    .get('/users')
+    .set('Cookie', cookies)
+    
+
+      // Pega o ID do usuário criado
+    const user_id = listUsersReponse.body[0].id;
+
+    
+
+    await request(app.server)
+    .post('/meals')
+    .set('Cookie', cookies)
+    .send({ name: "Comida da manha", description: "Sanduiche com suco de laranja", on_diet: true, user_id: user_id })
+    
+
+    await request(app.server)
+    .post('/meals')
+    .set('Cookie', cookies)
+    .send({ name: "Comida da tarde", description: "Cookies com Coca cola", on_diet: false, user_id: user_id })
+    
+
+    await request(app.server)
+    .post('/meals')
+    .set('Cookie', cookies)
+    .send({ name: "Comida da noite", description: "Legumes e peixes", on_diet: true, user_id: user_id })
+    
+
+    await request(app.server)
+    .post('/meals')
+    .set('Cookie', cookies)
+    .send({ name: "Comida da madrugada", description: "Melancia e banana", on_diet: true, user_id: user_id })
+    
+
+    
+
+    // Requisição para pegar métricas
+  const listAllMealsResponse = await request(app.server)
+  .get(`/users/${user_id}`)
+  .set('Cookie', cookies)
+  .expect(200)
+
+  expect(listAllMealsResponse.body).length(4)
+  
+});
+
+
+
   })
