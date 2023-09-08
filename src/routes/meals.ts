@@ -186,8 +186,4 @@ export async function mealsRoutes(app: FastifyInstance) {
   )
   
   
-  
-  
-  
-  
 }
