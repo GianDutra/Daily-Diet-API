@@ -32,14 +32,23 @@ export async function mealsRoutes(app: FastifyInstance) {
     {
       preHandler: [checkSessionIdExists],
     },
-    async (request) => {
+    async (req, res) => {
       const getMealsParamsSchema = z.object({
         id: z.string().uuid(),
       })
 
-      const { id } = getMealsParamsSchema.parse(request.params)
+      const { id } = getMealsParamsSchema.parse(req.params)
 
-      const { sessionId } = request.cookies
+      const { sessionId } = req.cookies;
+  
+      const user = await knex('users').where({ session_id: sessionId }).first();
+      //Caso a sessão não exista, então a refeição não é do usuário, logo ele não tem permissão para visualizar.
+      if (!user) {
+        return res.status(403).send({
+          status: 'error',
+          data: 'Session ID does not exist on this device, therefore you do not have permission to visualize this meal',
+        });
+      }
 
       const meal = await knex('meals')
         .where({

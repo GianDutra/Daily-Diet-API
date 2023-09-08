@@ -81,6 +81,50 @@ export async function usersRoutes(app: FastifyInstance) {
             return res.status(200).send(meals);
           }
         );
+
+
+
+        app.get('/:id/metrics', async (req, res) => {
+          const getUserParamsSchema = z.object({
+            id: z.string().uuid()
+          });
+        
+          const { id } = getUserParamsSchema.parse(req.params);
+        
+          const meals = await knex('meals')
+            .where('user_id', id)
+            .orderBy('created_at')
+            .select();
+        
+          let mealsOnDietCount = 0;
+          let mealsOffDietCount = 0;
+          let currentSequence = 0;
+          let maxSequence = 0;
+        
+          meals.forEach((meal, index) => {
+            if (meal.on_diet) {
+              mealsOnDietCount++;
+              currentSequence = index > 0 && meals[index - 1].on_diet ? currentSequence + 1 : 1;
+              maxSequence = Math.max(maxSequence, currentSequence);
+            } else {
+              mealsOffDietCount++;
+              currentSequence = 0;
+            }
+          });
+        
+          const totalMealsCount = meals.length;
+        
+          const metrics = {
+            totalMealsCount,
+            mealsOnDietCount,
+            mealsOffDietCount,
+            bestSequenceOfMealsOnDiet: maxSequence
+          };
+        
+          return res.status(200).send({ metrics });
+        });
+      
     }
+
 
     
