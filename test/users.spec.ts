@@ -130,14 +130,12 @@ it('should be possible to list all of a users meals', async () => {
     
 
     
+    const listAllMealsResponse = await request(app.server)
+    .get(`/users/${user_id}`)
+    .set('Cookie', cookies)
+    .expect(200)
 
-    // Requisição para pegar métricas
-  const listAllMealsResponse = await request(app.server)
-  .get(`/users/${user_id}`)
-  .set('Cookie', cookies)
-  .expect(200)
-
-  expect(listAllMealsResponse.body).length(4)
+    expect(listAllMealsResponse.body).length(4)
   
 });
 
