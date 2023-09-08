@@ -127,9 +127,51 @@ export async function mealsRoutes(app: FastifyInstance) {
   
       return res.status(204).send();
     }
-  );
+  )
   
+  app.put(
+    '/:id',
+    {
+      preHandler: [checkSessionIdExists]
+    },
+    async (req, res) => {
+      const getMealParamsSchema = z.object({
+        id: z.string().uuid()
+      })
+
+      const editMealBodySchema = z.object({
+        name: z.string(),
+        description: z.string(),
+        created_at: z.string(),
+        on_diet: z.boolean()
+      })
+
+      const { id } = getMealParamsSchema.parse(req.params)
+
+      const { name, description, on_diet, created_at  } =
+        editMealBodySchema.parse(req.body)
+
+        const { sessionId } = req.cookies;
   
+        const user = await knex('users').where({ session_id: sessionId }).first();
+        //Caso a sessão não exista, então ela não é do usuário, logo ele não tem permissão para editar.
+        if (!user) {
+          return res.status(403).send({
+            status: 'error',
+            data: 'Session ID does not exist on this device, therefore you do not have permission to delete',
+          });
+        }
+
+      await knex('meals').where('id', id).update({
+        name,
+        description,
+        created_at,
+        on_diet
+      })
+
+      return res.status(204).send()
+    }
+  )
   
   
   
