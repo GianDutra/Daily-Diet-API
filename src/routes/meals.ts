@@ -77,7 +77,7 @@ export async function mealsRoutes(app: FastifyInstance) {
 
     const { name, description, on_diet, user_id } =
     createMealBodySchema.parse(req.body)
-    
+
     const userExists = await knex('users').where('id', user_id).first();
 
     if (!userExists) {
@@ -96,4 +96,44 @@ export async function mealsRoutes(app: FastifyInstance) {
     res.status(201).send()
   })
 
+  app.delete(
+    '/:id',
+    {
+      preHandler: [checkSessionIdExists]
+    },
+    async (req, res) => {
+      const params = req.params as { id: string };
+  
+      const { id } = params;
+  
+      const meal = await knex('meals').where('id', id).first();
+  
+      if (!meal) {
+        return res.status(404).send({ message: 'Meal not found' });
+      }
+  
+      const { sessionId } = req.cookies;
+  
+      const user = await knex('users').where({ session_id: sessionId }).first();
+      //Caso a sessão não exista, então ela não é do usuário, logo ele não tem permissão para deletar.
+      if (!user) {
+        return res.status(403).send({
+          status: 'error',
+          data: 'Session ID does not exist on this device, therefore you do not have permission to delete',
+        });
+      }
+  
+      await knex('meals').where('id', id).delete();
+  
+      return res.status(204).send();
+    }
+  );
+  
+  
+  
+  
+  
+  
+  
+  
 }
