@@ -6,6 +6,10 @@ import { checkSessionIdExists } from '../middlewares/check-session-id-exists'
 
 export async function mealsRoutes(app: FastifyInstance) {
 
+  // Faz com que o usuário visualize somente as meals que foram criadas com seu cookies.
+  // Fiz esta rota apenas para testes, porque fiz outra rota que estou usando 
+  // em users.ts, no qual você coloca o /users/id e além de verificar o cookies igual essa(caso contrário não mostra),
+  // ela também verifica se o user existe ou não, então considero a outra rota a correta e está apenas para testes.
   app.get(
     '/',
     {
@@ -64,7 +68,7 @@ export async function mealsRoutes(app: FastifyInstance) {
 
 
  
-
+  // Cria a refeição e vincula o "id" da tabela "users" ao "user_id" da tabela "meals"
   app.post('/', async (req, res) => {
     const createMealBodySchema = z.object({
       name: z.string(),
@@ -105,6 +109,7 @@ export async function mealsRoutes(app: FastifyInstance) {
     res.status(201).send()
   })
 
+  // Deleta um usuário através de seu "id" da tabela "users", também pode ser encontrado como "user_id" da tabela "meals"
   app.delete(
     '/:id',
     {
@@ -138,6 +143,7 @@ export async function mealsRoutes(app: FastifyInstance) {
     }
   )
   
+  // Modifica o campo nome, descrição, Data e hora e se está ou não dentro da dieta
   app.put(
     '/:id',
     {
