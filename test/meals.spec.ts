@@ -131,7 +131,7 @@ describe('Meals routes', () => {
   })
 
 
-  it.only('should be possible to edit a meal', async () => {
+  it('should be possible to edit a meal', async () => {
 
     const createUsersResponse = await request(app.server)
     .post('/users')
