@@ -148,10 +148,13 @@ export async function mealsRoutes(app: FastifyInstance) {
         id: z.string().uuid()
       })
 
+      const regexData = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+
       const editMealBodySchema = z.object({
         name: z.string(),
         description: z.string(),
-        created_at: z.string(),
+        created_at: z.string().regex(regexData, { message: "Invalid date format" }),
+        //created_at: z.string(), //.datetime(),
         on_diet: z.boolean()
       })
 
