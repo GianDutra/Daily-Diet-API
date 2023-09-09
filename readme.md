@@ -11,11 +11,11 @@
 <img src="./.github/1.png" alt="TasksAPI-Challenge" title="TasksAPI-Challenge">
 
 
-> Project developed to register and manage user meals, with metrics functionalities and user authentication.
+> This project was a challenge designed for students to complete individually in the Rocketseat Node.js course.
 
 ## About the project
 
-The aim of this project is to allow users to record their meals, associating information such as name, description, date and time, and whether the meal is within or outside the diet. Additionally, the system offers functionalities to edit and delete meals, as well as metrics related to user's food intake.
+This project serves as an API for users to create and manage meals, as well as register new users. It was created to potentially integrate with a mobile application called Daily-Diet in the backend. Daily-Diet is a project from the native track, which currently focuses solely on the front-end. The API allows users to record meal details, including name, description, date, time, and whether the meal adheres to a specific diet. Additionally, users can edit, delete meals, and view metrics related to their food intake.
 
 ### Functional Requirements
 
