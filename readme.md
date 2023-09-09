@@ -1,14 +1,14 @@
-# Daily Diet API
+# Daily Diet API - Challenge
 
 <p align="center">
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/YourUsername/MyMealsAPI?color=%2304D361">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/GianDutra/Daily-Diet-API?color=%2304D361">
 
-   <a href="https://github.com/YourUsername/MyMealsAPI/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/YourUsername/MyMealsAPI">
+   <a href="https://github.com/GianDutra/TasksAPI-Challenge/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/GianDutra/Daily-Diet-API">
   </a>
   
 </p>
-<img src="./.github/1.png" alt="MyMealsAPI" title="MyMealsAPI">
+<img src="./.github/1.png" alt="TasksAPI-Challenge" title="TasksAPI-Challenge">
 
 
 > Project developed to register and manage user meals, with metrics functionalities and user authentication.
@@ -131,6 +131,10 @@ To test the routes and interact with the API, you can use a tool like Insomnia o
 
 4. Configure the request method and add any required headers or request body parameters according to the route you want to test.
 ```
+
+
+---
+
 
 ## 👨‍💼 Author
 
