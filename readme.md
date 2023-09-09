@@ -103,16 +103,16 @@ Returns food intake metrics for a specific user identified by their ID. Includes
 - **[Sqlite](https://github.com/sqlite/sqlite)**
 - **[PostgreSQL](https://www.postgresql.org/)**
 
-## 🚀 Testing MyMealsAPI
+## 🚀 Testing Daily-Diet-API
 
  
 ```bash
 
 # Clone this repository
-$ git clone git@github.com:YourUsername/MyMealsAPI.git
+$ git clone git@github.com:GianDutra/Daily-Diet-API.git
 
 # Access the project folder in your terminal
-$ cd MyMealsAPI
+$ cd Daily-Diet-API
 
 # Install the dependencies
 $ npm install
