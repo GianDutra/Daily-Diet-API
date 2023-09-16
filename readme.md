@@ -109,7 +109,7 @@ Returns food intake metrics for a specific user identified by their ID. Includes
 ```bash
 
 # Clone this repository
-$ git clone git@github.com:GianDutra/Daily-Diet-API.git
+$ git clone https://github.com/GianDutra/Daily-Diet-API.git
 
 # Access the project folder in your terminal
 $ cd Daily-Diet-API
