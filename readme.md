@@ -3,7 +3,7 @@
 <p align="center">
   <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/GianDutra/Daily-Diet-API?color=%2304D361">
 
-   <a href="https://github.com/GianDutra/TasksAPI-Challenge/commits/master">
+   <a href="https://github.com/GianDutra/Daily-Diet-API/commits/master">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/GianDutra/Daily-Diet-API">
   </a>
   
